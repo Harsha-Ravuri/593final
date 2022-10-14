@@ -18,6 +18,13 @@ public class UserClass {
 	 * @param args
 	 */
 
+	static void addExpenditure() {
+		LocalDateTime currentDate = LocalDateTime.now();
+		Expenditure textExp = new Expenditure("Test", 20, currentDate, "Food");
+		exp_list.addExpenditure(textExp);
+		exp_list.displayExpenditureList();
+	}
+
 	static void menu() {
 		int selection;
 		Scanner input = new Scanner(System.in);
@@ -36,7 +43,10 @@ public class UserClass {
 
 		switch (selection) {
 			case 1:
-				System.out.println("1 - Add Expense");
+				System.out.println("\n");
+				System.out.println("Add Expense");
+				System.out.println("-------------------------\n");
+				addExpenditure();
 				break;
 			case 2:
 				System.out.println("2 - Edit Expense");
