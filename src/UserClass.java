@@ -38,6 +38,8 @@ public class UserClass {
 		
 		//editing exp2
 		exp_list.editExpenditure(exp2, "Bath supplies", 5.00, "Household");
+		exp_list.deleteExpenditure(exp3);
+		exp_list.deleteExpenditure(exp);
 		System.out.println("-------------------------------------------------------------");
 		exp_list.displayExpenditureList();
 	}

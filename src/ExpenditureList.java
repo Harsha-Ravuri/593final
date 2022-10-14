@@ -37,4 +37,8 @@ public class ExpenditureList {
 		}
 	}
 	
+	public List<Expenditure> getExpenditureList(){
+		return expenditure_list;
+	}
+	
 }
