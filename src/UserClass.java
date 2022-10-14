@@ -18,7 +18,7 @@ public class UserClass {
 	 * @param args
 	 */
 
-  static void menu() {
+	static void menu() {
 		int selection;
 		Scanner input = new Scanner(System.in);
 
@@ -33,10 +33,30 @@ public class UserClass {
 		System.out.println("5 - Quit");
 
 		selection = input.nextInt();
-		System.out.println(selection);  
-  }
+		System.out.println(selection);
 
-	 public static void main(String[] args) {
+		switch (selection) {
+			case 1:
+				System.out.println("1 - Add Expense");
+				break;
+			case 2:
+				System.out.println("2 - Edit Expense");
+				break;
+			case 3:
+				System.out.println("3 - Edit Exppense");
+				break;
+			case 4:
+				System.out.println("4 - Show All Expenses");
+				break;
+			case 5:
+				System.out.println("Thank you! The App has been closed. ");
+				break;
+			default:
+				// The user input an unexpected choice.
+		}
+	}
+
+	public static void main(String[] args) {
 		// making new expenditure
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
