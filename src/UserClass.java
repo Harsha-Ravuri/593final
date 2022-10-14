@@ -78,8 +78,10 @@ public class UserClass {
 		double amount = exp.getAmount();
 		String category = exp.getCategory();
 
-		System.out.println("Please Enter The Title: ");
-		title = input.nextLine();
+		System.out.println("Please Enter The Title (Press ENTER to Skip): ");
+		if (!input.nextLine().isEmpty()) {
+			title = input.nextLine();
+		}
 
 		boolean valid = false;
 		while (valid == false) {
