@@ -35,8 +35,23 @@ public class UserClass {
 		LocalDateTime currentDate = LocalDateTime.now();
 		System.out.println("Please Enter The Title: ");
 		String title = input.nextLine();
-		System.out.println("Please Enter The Amount: ");
-		Double amount = round(input.nextDouble(), 2);
+		Double amount = 0.0;
+
+		boolean valid = false;
+		while (valid == false) {
+			System.out.println("Please Enter The Amount: ");
+			Scanner newInput = new Scanner(System.in);
+			try {
+				amount = round(newInput.nextDouble(), 2);
+				if (amount >= 0 && amount <= 1000000) {
+					valid = true;
+				} else {
+					System.out.println("Invalid Input! ");
+				}
+			} catch (Exception e) {
+				System.out.println("Invalid Input! ");
+			}
+		}
 
 		System.out.println("Please Select the Category: ");
 		System.out.println("\n");
