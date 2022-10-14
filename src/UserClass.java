@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import java.util.Locale.Category;
 
 /**
  * User Class for expenditure activities
@@ -42,6 +43,8 @@ public class UserClass {
 		String category = "";
 
 		System.out.println("\n");
+		System.out.println("Please Select the Category: ");
+		printCategory();
 		boolean valid = false;
 		while (!valid) {
 			Scanner input = new Scanner(System.in);
@@ -55,8 +58,35 @@ public class UserClass {
 				}
 			} catch (Exception e) {
 				System.out.println("Invalid Input! ");
-				System.out.println("Please Select the Category: ");
-				printCategory();
+			}
+		}
+
+		return category;
+	}
+
+	static String chooseCategoryForEdit() {
+		int selection;
+		String category = "";
+
+		System.out.println("\n");
+		System.out.println("Please Select the Category (Press ENTER to Skip): ");
+		printCategory();
+		boolean valid = false;
+		while (!valid) {
+			Scanner input = new Scanner(System.in);
+			// if (input.nextLine().isEmpty()) {
+			// return category;
+			// }
+			try {
+				selection = input.nextInt();
+				if (selection >= 0 && selection < categoryArray.length) {
+					valid = true;
+					category = categoryArray[selection];
+				} else {
+					throw new Exception();
+				}
+			} catch (Exception e) {
+				System.out.println("Invalid Input! ");
 			}
 		}
 
@@ -86,8 +116,6 @@ public class UserClass {
 			}
 		}
 
-		System.out.println("Please Select the Category: ");
-		System.out.println("\n");
 		String category = chooseCategory();
 		Expenditure exp = new Expenditure(title, amount, currentDate, category);
 		exp_list.addExpenditure(exp);
@@ -124,11 +152,9 @@ public class UserClass {
 			}
 		}
 
-		System.out.println("Please Select the Category (Press ENTER to Skip): ");
-		System.out.println("\n");
-
-		if (!input.nextLine().isEmpty()) {
-			category = chooseCategory();
+		String newCategory = chooseCategoryForEdit();
+		if (newCategory != "") {
+			category = newCategory;
 		}
 
 		exp_list.editExpenditure(id, title, amount, category);
