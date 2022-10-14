@@ -71,6 +71,27 @@ public class UserClass {
 		exp_list.displayExpenditureList();
 	}
 
+	static void editExpenditure() {
+		int id = -1;
+		boolean valid = false;
+		while (valid == false) {
+			System.out.println("Please Enter the ID to Edit: ");
+			Scanner input = new Scanner(System.in);
+			try {
+				id = input.nextInt();
+				if (id >= 0 && id < exp_list.getCount()) {
+					Expenditure exp = exp_list.getByIndex(id);
+					exp.displayExpenditure();
+					valid = true;
+				} else {
+					System.out.println("Invalid Input! ");
+				}
+			} catch (Exception e) {
+				System.out.println("Invalid Input! ");
+			}
+		}
+	}
+
 	static void deleteExpenditure() {
 		int id = -1;
 		boolean valid = false;
@@ -117,7 +138,7 @@ public class UserClass {
 				addExpenditure();
 				break;
 			case 2:
-				System.out.println("2 - Edit Expense");
+				editExpenditure();
 				break;
 			case 3:
 				deleteExpenditure();
