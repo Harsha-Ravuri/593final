@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class UserClass {
 	// Making a new Expenditure list
 	static ExpenditureList exp_list = new ExpenditureList();
-	static String[] categoryArray = new String[] { "Food", "Clothing", "Gas", "Entertainment", "Other" };
+	static String[] categoryArray = new String[] { "Food", "Clothing", "Transportation", "Entertainment", "Other" };
 	static boolean running = true;
 
 	/**
@@ -30,22 +30,37 @@ public class UserClass {
 		return (double) tmp / factor;
 	}
 
-	static String chooseCategory() {
-		int selection;
-		System.out.println("Please Select the Category: ");
-		System.out.println("\n");
+	static void printCategory() {
 		System.out.println("Category Options: \n");
-		Scanner input = new Scanner(System.in);
 		for (int i = 0; i < categoryArray.length; i++) {
 			System.out.println(i + " - " + categoryArray[i]);
 		}
+	}
+
+	static String chooseCategory() {
+		int selection;
+		String category = "";
+
 		System.out.println("\n");
+		boolean valid = false;
+		while (!valid) {
+			Scanner input = new Scanner(System.in);
+			try {
+				selection = input.nextInt();
+				if (selection >= 0 && selection < categoryArray.length) {
+					valid = true;
+					category = categoryArray[selection];
+				} else {
+					throw new Exception();
+				}
+			} catch (Exception e) {
+				System.out.println("Invalid Input! ");
+				System.out.println("Please Select the Category: ");
+				printCategory();
+			}
+		}
 
-		selection = input.nextInt();
-		String category;
-		category = categoryArray[selection];
 		return category;
-
 	}
 
 	static void addExpenditure() {
@@ -70,6 +85,9 @@ public class UserClass {
 				System.out.println("Invalid Input! ");
 			}
 		}
+
+		System.out.println("Please Select the Category: ");
+		System.out.println("\n");
 		String category = chooseCategory();
 		Expenditure exp = new Expenditure(title, amount, currentDate, category);
 		exp_list.addExpenditure(exp);
@@ -77,7 +95,6 @@ public class UserClass {
 	}
 
 	static void updateExpenditure(int id, Expenditure exp) {
-		int selection;
 		Scanner input = new Scanner(System.in);
 		String title = exp.getTitle();
 		double amount = exp.getAmount();
@@ -109,14 +126,9 @@ public class UserClass {
 
 		System.out.println("Please Select the Category (Press ENTER to Skip): ");
 		System.out.println("\n");
-		System.out.println("Category Options: \n");
-		for (int i = 0; i < categoryArray.length; i++) {
-			System.out.println(i + " - " + categoryArray[i]);
-		}
-		System.out.println("\n");
+
 		if (!input.nextLine().isEmpty()) {
-			selection = input.nextInt();
-			category = categoryArray[selection];
+			category = chooseCategory();
 		}
 
 		exp_list.editExpenditure(id, title, amount, category);
