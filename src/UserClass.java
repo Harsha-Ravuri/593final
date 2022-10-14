@@ -154,7 +154,12 @@ public class UserClass {
 				System.out.println("Invalid Input! ");
 			}
 		}
+
+		Expenditure expToDelete = exp_list.getByIndex(id);
 		exp_list.deleteExpenditureByID(id);
+		System.out.println("Expenditure Deleted: ");
+		expToDelete.displayExpenditure();
+		System.out.println("Expenditure List: ");
 		exp_list.displayExpenditureList();
 	}
 

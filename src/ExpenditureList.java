@@ -39,7 +39,6 @@ public class ExpenditureList {
 
 	public void displayExpenditureList() {
 		System.out.println("\n");
-		System.out.println("-------------------------\n");
 		for (int i = 0; i < expenditure_count; i++) {
 
 			System.out.println("ID: " + i);
