@@ -28,12 +28,11 @@ public class UserClass {
 		System.out.println("-------------------------\n");
 		System.out.println("1 - Add Expense");
 		System.out.println("2 - Edit Expense");
-		System.out.println("3 - Edit Exppense");
+		System.out.println("3 - Delete Exppense");
 		System.out.println("4 - Show All Expenses");
 		System.out.println("5 - Quit");
 
 		selection = input.nextInt();
-		System.out.println(selection);
 
 		switch (selection) {
 			case 1:
@@ -43,16 +42,18 @@ public class UserClass {
 				System.out.println("2 - Edit Expense");
 				break;
 			case 3:
-				System.out.println("3 - Edit Exppense");
+				System.out.println("3 - Delete Exppense");
 				break;
 			case 4:
 				System.out.println("4 - Show All Expenses");
+				exp_list.displayExpenditureList();
 				break;
 			case 5:
 				System.out.println("Thank you! The App has been closed. ");
 				break;
 			default:
-				// The user input an unexpected choice.
+				System.out.println("Invalide Selection ");
+				break;
 		}
 	}
 
@@ -73,6 +74,7 @@ public class UserClass {
 		exp_list.addExpenditure(exp);
 		exp_list.addExpenditure(exp2);
 		exp_list.addExpenditure(exp3);
+		exp_list.deleteExpenditure(exp3);
 
 		// Display all expenditures
 		exp_list.displayExpenditureList();
