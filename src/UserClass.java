@@ -14,6 +14,7 @@ public class UserClass {
 	// Making a new Expenditure list
 	static ExpenditureList exp_list = new ExpenditureList();
 	static String[] categoryArray = new String[] { "Food", "Clothing", "Gas", "Entertainment", "Other" };
+	static boolean running = true;
 
 	/**
 	 * @param args
@@ -127,6 +128,7 @@ public class UserClass {
 				break;
 			case 5:
 				System.out.println("Thank you! The App has been closed. ");
+				running = false;
 				break;
 			default:
 				System.out.println("Invalide Selection ");
@@ -161,7 +163,9 @@ public class UserClass {
 		System.out.println("-------------------------------------------------------------");
 		exp_list.displayExpenditureList();
 
-		menu();
+		while (running) {
+			menu();
+		}
 
 	}
 
