@@ -18,12 +18,24 @@ public class UserClass {
 	 * @param args
 	 */
 
+	public static double round(double value, int places) {
+		if (places < 0)
+			throw new IllegalArgumentException();
+
+		long factor = (long) Math.pow(10, places);
+		value = value * factor;
+		long tmp = Math.round(value);
+		return (double) tmp / factor;
+	}
+
 	static void addExpenditure() {
 		Scanner input = new Scanner(System.in);
 		LocalDateTime currentDate = LocalDateTime.now();
-		System.out.println("Please Enter The Title of Your Expenditure");
-		String title = input.next();
-		Expenditure exp = new Expenditure(title, 20, currentDate, "Food");
+		System.out.println("Please Enter The Title: ");
+		String title = input.nextLine();
+		System.out.println("Please Enter The Amount: ");
+		Double amount = round(input.nextDouble(), 2);
+		Expenditure exp = new Expenditure(title, amount, currentDate, "Food");
 		// plr.setName(name);
 		exp_list.addExpenditure(exp);
 		exp_list.displayExpenditureList();
@@ -42,6 +54,7 @@ public class UserClass {
 		System.out.println("3 - Delete Exppense");
 		System.out.println("4 - Show All Expenses");
 		System.out.println("5 - Quit");
+		System.out.println("\n");
 
 		selection = input.nextInt();
 
