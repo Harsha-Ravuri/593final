@@ -40,7 +40,7 @@ class ExpenditureListTest {
 	@Test
 	void testEditExpenditure() {
 		exp_list.addExpenditure(exp_to_edit);
-		exp_list.editExpenditure(exp_to_edit, exp_to_edit.getTitle(), exp_to_edit.getAmount(), "Household");
+		exp_list.editExpenditure(0, exp_to_edit.getTitle(), exp_to_edit.getAmount(), "Household");
 		Assert.assertTrue(exp_to_edit.getCategory()=="Household");
 	}
 
