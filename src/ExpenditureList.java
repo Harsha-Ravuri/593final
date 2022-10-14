@@ -30,9 +30,8 @@ public class ExpenditureList {
 		--expenditure_count;
 	}
 
-	public void editExpenditure(Expenditure exp, String title, double amount, String category) {
-		int this_exp_index = expenditure_list.indexOf(exp);
-		Expenditure this_exp = expenditure_list.get(this_exp_index);
+	public void editExpenditure(int idx, String title, double amount, String category) {
+		Expenditure this_exp = expenditure_list.get(idx);
 		this_exp.title = title;
 		this_exp.amount = amount;
 		this_exp.category = category;

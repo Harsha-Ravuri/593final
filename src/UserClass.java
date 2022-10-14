@@ -71,6 +71,47 @@ public class UserClass {
 		exp_list.displayExpenditureList();
 	}
 
+	static void updateExpenditure(int id, Expenditure exp) {
+		int selection;
+		Scanner input = new Scanner(System.in);
+		String title = exp.getTitle();
+		double amount = exp.getAmount();
+		String category = exp.getCategory();
+
+		System.out.println("Please Enter The Title: ");
+		title = input.nextLine();
+
+		boolean valid = false;
+		while (valid == false) {
+			System.out.println("Please Enter The Amount: ");
+			Scanner newInput = new Scanner(System.in);
+			try {
+				amount = round(newInput.nextDouble(), 2);
+				if (amount >= 0 && amount <= 1000000) {
+					valid = true;
+				} else {
+					System.out.println("Invalid Input! ");
+				}
+			} catch (Exception e) {
+				System.out.println("Invalid Input! ");
+			}
+		}
+
+		System.out.println("Please Select the Category: ");
+		System.out.println("\n");
+		System.out.println("Category Options: \n");
+		for (int i = 0; i < categoryArray.length; i++) {
+			System.out.println(i + " - " + categoryArray[i]);
+		}
+		System.out.println("\n");
+
+		selection = input.nextInt();
+		category = categoryArray[selection];
+
+		exp_list.editExpenditure(id, title, amount, category);
+		exp_list.displayExpenditureList();
+	}
+
 	static void editExpenditure() {
 		int id = -1;
 		boolean valid = false;
@@ -81,7 +122,9 @@ public class UserClass {
 				id = input.nextInt();
 				if (id >= 0 && id < exp_list.getCount()) {
 					Expenditure exp = exp_list.getByIndex(id);
+					System.out.println("Selected Expenditure: ");
 					exp.displayExpenditure();
+					updateExpenditure(id, exp);
 					valid = true;
 				} else {
 					System.out.println("Invalid Input! ");
@@ -180,7 +223,7 @@ public class UserClass {
 		exp_list.displayExpenditureList();
 
 		// editing exp2
-		exp_list.editExpenditure(exp2, "Bath supplies", 5.00, "Household");
+		exp_list.editExpenditure(1, "Bath supplies", 5.00, "Household");
 		System.out.println("-------------------------------------------------------------");
 		exp_list.displayExpenditureList();
 
