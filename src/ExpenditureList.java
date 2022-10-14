@@ -54,5 +54,9 @@ public class ExpenditureList {
 	public Expenditure getByIndex(int idx) {
 		return expenditure_list.get(idx);
 	}
+	
+	public List<Expenditure> getExpenditureList(){
+		return expenditure_list;
+	}
 
 }
