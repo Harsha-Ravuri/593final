@@ -30,8 +30,25 @@ public class UserClass {
 		return (double) tmp / factor;
 	}
 
-	static void addExpenditure() {
+	static String chooseCategory() {
 		int selection;
+		System.out.println("Please Select the Category: ");
+		System.out.println("\n");
+		System.out.println("Category Options: \n");
+		Scanner input = new Scanner(System.in);
+		for (int i = 0; i < categoryArray.length; i++) {
+			System.out.println(i + " - " + categoryArray[i]);
+		}
+		System.out.println("\n");
+
+		selection = input.nextInt();
+		String category;
+		category = categoryArray[selection];
+		return category;
+
+	}
+
+	static void addExpenditure() {
 		Scanner input = new Scanner(System.in);
 		LocalDateTime currentDate = LocalDateTime.now();
 		System.out.println("Please Enter The Title: ");
@@ -53,19 +70,7 @@ public class UserClass {
 				System.out.println("Invalid Input! ");
 			}
 		}
-
-		System.out.println("Please Select the Category: ");
-		System.out.println("\n");
-		System.out.println("Category Options: \n");
-		for (int i = 0; i < categoryArray.length; i++) {
-			System.out.println(i + " - " + categoryArray[i]);
-		}
-		System.out.println("\n");
-
-		selection = input.nextInt();
-		String category;
-		category = categoryArray[selection];
-
+		String category = chooseCategory();
 		Expenditure exp = new Expenditure(title, amount, currentDate, category);
 		exp_list.addExpenditure(exp);
 		exp_list.displayExpenditureList();
