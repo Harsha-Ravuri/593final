@@ -19,9 +19,13 @@ public class UserClass {
 	 */
 
 	static void addExpenditure() {
+		Scanner input = new Scanner(System.in);
 		LocalDateTime currentDate = LocalDateTime.now();
-		Expenditure textExp = new Expenditure("Test", 20, currentDate, "Food");
-		exp_list.addExpenditure(textExp);
+		System.out.println("Please Enter The Title of Your Expenditure");
+		String title = input.next();
+		Expenditure exp = new Expenditure(title, 20, currentDate, "Food");
+		// plr.setName(name);
+		exp_list.addExpenditure(exp);
 		exp_list.displayExpenditureList();
 	}
 
