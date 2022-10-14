@@ -25,6 +25,11 @@ public class ExpenditureList {
 		--expenditure_count;
 	}
 
+	public void deleteExpenditureByID(int idx) {
+		expenditure_list.remove(idx);
+		--expenditure_count;
+	}
+
 	public void editExpenditure(Expenditure exp, String title, double amount, String category) {
 		int this_exp_index = expenditure_list.indexOf(exp);
 		Expenditure this_exp = expenditure_list.get(this_exp_index);
@@ -42,6 +47,10 @@ public class ExpenditureList {
 			expenditure_list.get(i).displayExpenditure();
 			System.out.println("\n");
 		}
+	}
+
+	public int getCount() {
+		return expenditure_count;
 	}
 
 }

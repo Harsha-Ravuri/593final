@@ -70,6 +70,27 @@ public class UserClass {
 		exp_list.displayExpenditureList();
 	}
 
+	static void deleteExpenditure() {
+		int id = -1;
+		boolean valid = false;
+		while (valid == false) {
+			System.out.println("Please Enter the ID to Delete: ");
+			Scanner input = new Scanner(System.in);
+			try {
+				id = input.nextInt();
+				if (id >= 0 && id < exp_list.getCount()) {
+					valid = true;
+				} else {
+					System.out.println("Invalid Input! ");
+				}
+			} catch (Exception e) {
+				System.out.println("Invalid Input! ");
+			}
+		}
+		exp_list.deleteExpenditureByID(id);
+		exp_list.displayExpenditureList();
+	}
+
 	static void menu() {
 		int selection;
 		Scanner input = new Scanner(System.in);
@@ -98,7 +119,7 @@ public class UserClass {
 				System.out.println("2 - Edit Expense");
 				break;
 			case 3:
-				System.out.println("3 - Delete Exppense");
+				deleteExpenditure();
 				break;
 			case 4:
 				System.out.println("4 - Show All Expenses");
