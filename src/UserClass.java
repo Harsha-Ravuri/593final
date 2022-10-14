@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class UserClass {
 	// Making a new Expenditure list
 	static ExpenditureList exp_list = new ExpenditureList();
+	static String[] categoryArray = new String[] { "Food", "Clothing", "Gas", "Entertainment", "Other" };
 
 	/**
 	 * @param args
@@ -29,14 +30,27 @@ public class UserClass {
 	}
 
 	static void addExpenditure() {
+		int selection;
 		Scanner input = new Scanner(System.in);
 		LocalDateTime currentDate = LocalDateTime.now();
 		System.out.println("Please Enter The Title: ");
 		String title = input.nextLine();
 		System.out.println("Please Enter The Amount: ");
 		Double amount = round(input.nextDouble(), 2);
-		Expenditure exp = new Expenditure(title, amount, currentDate, "Food");
-		// plr.setName(name);
+
+		System.out.println("Please Select the Category: ");
+		System.out.println("\n");
+		System.out.println("Category Options: \n");
+		for (int i = 0; i < categoryArray.length; i++) {
+			System.out.println(i + " - " + categoryArray[i]);
+		}
+		System.out.println("\n");
+
+		selection = input.nextInt();
+		String category;
+		category = categoryArray[selection];
+
+		Expenditure exp = new Expenditure(title, amount, currentDate, category);
 		exp_list.addExpenditure(exp);
 		exp_list.displayExpenditureList();
 	}
