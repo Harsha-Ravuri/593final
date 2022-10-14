@@ -85,8 +85,11 @@ public class UserClass {
 
 		boolean valid = false;
 		while (valid == false) {
-			System.out.println("Please Enter The Amount: ");
+			System.out.println("Please Enter The Amount (Press ENTER to Skip): ");
 			Scanner newInput = new Scanner(System.in);
+			if (newInput.nextLine().isEmpty()) {
+				break;
+			}
 			try {
 				amount = round(newInput.nextDouble(), 2);
 				if (amount >= 0 && amount <= 1000000) {
@@ -99,16 +102,17 @@ public class UserClass {
 			}
 		}
 
-		System.out.println("Please Select the Category: ");
+		System.out.println("Please Select the Category (Press ENTER to Skip): ");
 		System.out.println("\n");
 		System.out.println("Category Options: \n");
 		for (int i = 0; i < categoryArray.length; i++) {
 			System.out.println(i + " - " + categoryArray[i]);
 		}
 		System.out.println("\n");
-
-		selection = input.nextInt();
-		category = categoryArray[selection];
+		if (!input.nextLine().isEmpty()) {
+			selection = input.nextInt();
+			category = categoryArray[selection];
+		}
 
 		exp_list.editExpenditure(id, title, amount, category);
 		exp_list.displayExpenditureList();
