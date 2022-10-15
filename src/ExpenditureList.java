@@ -45,6 +45,9 @@ public class ExpenditureList {
 			expenditure_list.get(i).displayExpenditure();
 			System.out.println("\n");
 		}
+
+		System.out.println("Total Expenditure : " + getTotalAmount());
+		System.out.println("\n");
 	}
 
 	public int getCount() {
@@ -54,9 +57,19 @@ public class ExpenditureList {
 	public Expenditure getByIndex(int idx) {
 		return expenditure_list.get(idx);
 	}
-	
-	public List<Expenditure> getExpenditureList(){
+
+	public List<Expenditure> getExpenditureList() {
 		return expenditure_list;
+	}
+
+	public double getTotalAmount() {
+		double sum = 0;
+		for (int i = 0; i < expenditure_count; i++) {
+			Expenditure exp = expenditure_list.get(i);
+			sum += exp.getAmount();
+		}
+
+		return sum;
 	}
 
 }
