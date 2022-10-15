@@ -63,7 +63,19 @@ public class UserClass {
 
 		return category;
 	}
-
+	
+	public static boolean isNumeric(String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        double d = Double.parseDouble(strNum);
+	    } catch (NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
+	}
+	
 	static String chooseCategoryForEdit() {
 		int selection;
 		String category = "";
@@ -78,12 +90,21 @@ public class UserClass {
 			// return category;
 			// }
 			try {
-				selection = input.nextInt();
-				if (selection >= 0 && selection < categoryArray.length) {
-					valid = true;
-					category = categoryArray[selection];
-				} else {
-					throw new Exception();
+				String user_input = input.next();
+				if(user_input.isEmpty())
+					return category;
+				else if(isNumeric(category)==false) {
+					System.out.println("Please enter valid option");
+					continue;	
+				}
+				else{
+					selection = input.nextInt();
+					if (selection >= 0 && selection < categoryArray.length) {
+						valid = true;
+						category = categoryArray[selection];
+					} 
+					else
+						throw new Exception();
 				}
 			} catch (Exception e) {
 				System.out.println("Invalid Input! ");
