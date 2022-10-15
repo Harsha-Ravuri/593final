@@ -86,19 +86,18 @@ public class UserClass {
 		boolean valid = false;
 		while (!valid) {
 			Scanner input = new Scanner(System.in);
-			// if (input.nextLine().isEmpty()) {
-			// return category;
-			// }
 			try {
 				String user_input = input.next();
-				if(user_input.isEmpty())
-					return category;
-				else if(isNumeric(category)==false) {
+				if(user_input.isEmpty()) {
+					System.out.println("Cannot be empty. Try again");
+					continue;
+				}
+				else if(!(isNumeric(user_input))) {
 					System.out.println("Please enter valid option");
 					continue;	
 				}
 				else{
-					selection = input.nextInt();
+					selection = Integer.parseInt(user_input);
 					if (selection >= 0 && selection < categoryArray.length) {
 						valid = true;
 						category = categoryArray[selection];
@@ -150,19 +149,22 @@ public class UserClass {
 		String category = exp.getCategory();
 
 		System.out.println("Please Enter The Title (Press ENTER to Skip): ");
-		if (!input.nextLine().isEmpty()) {
-			title = input.nextLine();
+		String title_entered = input.nextLine();
+		if (!title_entered.isEmpty()) {
+			title = title_entered;
 		}
 
 		boolean valid = false;
 		while (valid == false) {
 			System.out.println("Please Enter The Amount (Press ENTER to Skip): ");
 			Scanner newInput = new Scanner(System.in);
-			if (newInput.nextLine().isEmpty()) {
+			String amount_entered = newInput.nextLine();
+			if (amount_entered.isEmpty()) {
 				break;
 			}
 			try {
-				amount = round(newInput.nextDouble(), 2);
+				Double amount_entered_as_double = Double.parseDouble(amount_entered);
+				amount = round(amount_entered_as_double, 2);
 				if (amount >= 0 && amount <= 1000000) {
 					valid = true;
 				} else {
@@ -189,15 +191,27 @@ public class UserClass {
 			System.out.println("Please Enter the ID to Edit: ");
 			Scanner input = new Scanner(System.in);
 			try {
-				id = input.nextInt();
-				if (id >= 0 && id < exp_list.getCount()) {
-					Expenditure exp = exp_list.getByIndex(id);
-					System.out.println("Selected Expenditure: ");
-					exp.displayExpenditure();
-					updateExpenditure(id, exp);
-					valid = true;
-				} else {
-					System.out.println("Invalid Input! ");
+				String user_input = input.next();
+				if(user_input.isEmpty()) {
+					System.out.println("Cannot be empty.");
+					continue;
+				}
+				else if(isNumeric(user_input)==false) {
+					System.out.println("Please enter valid option");
+					continue;	
+				}	
+				else {
+					id = Integer.parseInt(user_input);
+					System.out.println("id is "+id);
+					if (id >= 0 && id < exp_list.getCount()) {
+						Expenditure exp = exp_list.getByIndex(id);
+						System.out.println("Selected Expenditure: ");
+						exp.displayExpenditure();
+						updateExpenditure(id, exp);
+						valid = true;
+					} else {
+						System.out.println("Invalid Input! ");
+					}	
 				}
 			} catch (Exception e) {
 				System.out.println("Invalid Input! ");
@@ -245,8 +259,13 @@ public class UserClass {
 		System.out.println("4 - Show All Expenses");
 		System.out.println("5 - Quit");
 		System.out.println("\n");
-
-		selection = input.nextInt();
+		
+		String user_option = input.next();
+		while(!(isNumeric(user_option))) {
+			System.out.println("Please enter a valid choice!");
+			user_option = input.next();
+		}
+		selection = Integer.parseInt(user_option);
 
 		switch (selection) {
 			case 1:
@@ -270,7 +289,7 @@ public class UserClass {
 				running = false;
 				break;
 			default:
-				System.out.println("Invalide Selection ");
+				System.out.println("Invalid Selection. Please enter a valid selection ");
 				break;
 		}
 	}
