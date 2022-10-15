@@ -3,6 +3,8 @@
  * 
  */
 import java.util.*;
+import java.util.Locale.Category;
+import java.util.stream.Collectors;
 
 /**
  * @author Harsha Ravuri
@@ -48,6 +50,11 @@ public class ExpenditureList {
 
 		System.out.println("Total Expenditure : " + getTotalAmount());
 		System.out.println("\n");
+
+		Map<String, Double> totalSum = expenditure_list.stream()
+				.collect(Collectors.groupingBy(Expenditure::category,
+						Collectors.summingDouble(Expenditure::amount)));
+		System.out.println(totalSum);
 	}
 
 	public int getCount() {
