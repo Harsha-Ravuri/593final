@@ -64,12 +64,4 @@ public class Expenditure {
 		System.out.println(exp_details);
 	}
 
-	public double amount() {
-		return amount;
-	}
-
-	public String category() {
-		return category;
-	}
-
 }

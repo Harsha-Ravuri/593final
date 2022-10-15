@@ -50,8 +50,8 @@ public class ExpenditureList {
 
 		System.out.println("Total Expenditure : " + getTotalAmount());
 		Map<String, Double> totalSum = expenditure_list.stream()
-				.collect(Collectors.groupingBy(Expenditure::category,
-						Collectors.summingDouble(Expenditure::amount)));
+				.collect(Collectors.groupingBy(Expenditure::getCategory,
+						Collectors.summingDouble(Expenditure::getAmount)));
 		System.out.println(totalSum);
 		System.out.println("\n");
 	}
