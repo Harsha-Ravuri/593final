@@ -12,16 +12,7 @@ class ExpenditureListTest {
 	//making new expenditure
 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
 	LocalDateTime now = LocalDateTime.now(); 
-	
-	/**
-	//making 2nd expenditure 
-	LocalDateTime now2 = LocalDateTime.now(); 
-	Expenditure exp2 = new Expenditure("Oranges", 18.95, now, "Food");
-	
-	//making 3rd expenditure
-	LocalDateTime now3 = LocalDateTime.now();  
-	Expenditure exp3 = new Expenditure("Car Insurance", 400.00, now, "Transportation");
-	 * */
+
 	Expenditure exp = new Expenditure("Potatoes", 5.00, now, "Food");
 	Expenditure exp_to_edit = new Expenditure("Vacuum", 25.00, now, "Clothing");
 	
@@ -43,5 +34,15 @@ class ExpenditureListTest {
 		exp_list.editExpenditure(0, exp_to_edit.getTitle(), exp_to_edit.getAmount(), "Household");
 		Assert.assertTrue(exp_to_edit.getCategory()=="Household");
 	}
+	
+	@Test
+	void test_count() {
+		exp_list.addExpenditure(exp);
+		int actual_count = exp_list.getCount();
+		int expected_count = 1;
+		Assert.assertTrue(actual_count==1);
+	}
+	
+	
 
 }
