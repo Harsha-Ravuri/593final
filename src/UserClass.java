@@ -1,7 +1,12 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
-import java.util.Locale.Category;
+import java.util.regex.Pattern;
 
 /**
  * User Class for expenditure activities
@@ -14,12 +19,12 @@ import java.util.Locale.Category;
 public class UserClass {
 	// Making a new Expenditure list
 	static ExpenditureList exp_list = new ExpenditureList();
-	static String[] categoryArray = new String[] { "Food", "Clothing", "Transportation", "Entertainment", "Other" };
+	static ArrayList<String> categoryArray = new ArrayList<>(Arrays.asList("Food", "Clothing", "Gas", "Entertainment", "Other" ));
+	static String[] allowedCategoryArray = new String[] {"Medicine", "Pet", "Travel", "Miscellaneous"};
 	static boolean running = true;
+	static BudgetServices budgetServices;
+	static Pattern DATE_PATTERN = Pattern.compile("^\\d{2}-\\d{2}-\\d{4}$");
 
-	/**
-	 * @param args
-	 */
 
 	public static double round(double value, int places) {
 		if (places < 0)
@@ -33,8 +38,8 @@ public class UserClass {
 
 	static void printCategory() {
 		System.out.println("Category Options: \n");
-		for (int i = 0; i < categoryArray.length; i++) {
-			System.out.println(i + " - " + categoryArray[i]);
+		for (int i = 0; i < categoryArray.size(); i++) {
+			System.out.println(i+1 + " - " + categoryArray.get(i));
 		}
 	}
 
@@ -50,9 +55,9 @@ public class UserClass {
 			Scanner input = new Scanner(System.in);
 			try {
 				selection = input.nextInt();
-				if (selection >= 0 && selection < categoryArray.length) {
+				if (selection > 0 && selection <= categoryArray.size()) {
 					valid = true;
-					category = categoryArray[selection];
+					category = categoryArray.get(selection-1);
 				} else {
 					throw new Exception();
 				}
@@ -60,22 +65,21 @@ public class UserClass {
 				System.out.println("Invalid Input! ");
 			}
 		}
-
 		return category;
 	}
-	
+
 	public static boolean isNumeric(String strNum) {
-	    if (strNum == null) {
-	        return false;
-	    }
-	    try {
-	        double d = Double.parseDouble(strNum);
-	    } catch (NumberFormatException nfe) {
-	        return false;
-	    }
-	    return true;
+		if (strNum == null) {
+			return false;
+		}
+		try {
+			double d = Double.parseDouble(strNum);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
 	}
-	
+
 	static String chooseCategoryForEdit() {
 		int selection;
 		String category = "";
@@ -94,14 +98,14 @@ public class UserClass {
 				}
 				else if(!(isNumeric(user_input))) {
 					System.out.println("Please enter valid option");
-					continue;	
+					continue;
 				}
 				else{
 					selection = Integer.parseInt(user_input);
-					if (selection >= 0 && selection < categoryArray.length) {
+					if (selection >= 0 && selection < categoryArray.size()) {
 						valid = true;
-						category = categoryArray[selection];
-					} 
+						category = categoryArray.get(selection-1);
+					}
 					else
 						throw new Exception();
 				}
@@ -118,10 +122,10 @@ public class UserClass {
 		LocalDateTime currentDate = LocalDateTime.now();
 		System.out.println("Please Enter The Title: ");
 		String title = input.nextLine();
-		Double amount = 0.0;
+		double amount = 0.0;
 
 		boolean valid = false;
-		while (valid == false) {
+		while (!valid) {
 			System.out.println("Please Enter The Amount: ");
 			Scanner newInput = new Scanner(System.in);
 			try {
@@ -136,10 +140,34 @@ public class UserClass {
 			}
 		}
 
+		System.out.println("Please enter the date in MM-dd-yyyy format: ");
+		String date = "";
+		boolean validDate = false;
+		while (!validDate) {
+			Scanner newInput = new Scanner(System.in);
+			try {
+				date = newInput.nextLine();
+				if (matches(date)) {
+					validDate = true;
+				} else {
+					System.out.println("Invalid Input! ");
+				}
+			} catch (Exception e) {
+				System.out.println("Invalid Input! ");
+			}
+		}
+
 		String category = chooseCategory();
-		Expenditure exp = new Expenditure(title, amount, currentDate, category);
+		Date date1 = null;
+		try {
+			date1 = new SimpleDateFormat("MM-dd-yyyy").parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Expenditure exp = new Expenditure(title, amount, date1, category, date);
 		exp_list.addExpenditure(exp);
 		exp_list.displayExpenditureList();
+		budgetServices.addToCurrentExpenditure(amount);
 	}
 
 	static void updateExpenditure(int id, Expenditure exp) {
@@ -198,8 +226,8 @@ public class UserClass {
 				}
 				else if(isNumeric(user_input)==false) {
 					System.out.println("Please enter valid option");
-					continue;	
-				}	
+					continue;
+				}
 				else {
 					id = Integer.parseInt(user_input);
 					System.out.println("id is "+id);
@@ -211,7 +239,7 @@ public class UserClass {
 						valid = true;
 					} else {
 						System.out.println("Invalid Input! ");
-					}	
+					}
 				}
 			} catch (Exception e) {
 				System.out.println("Invalid Input! ");
@@ -255,11 +283,15 @@ public class UserClass {
 		System.out.println("-------------------------\n");
 		System.out.println("1 - Add Expense");
 		System.out.println("2 - Edit Expense");
-		System.out.println("3 - Delete Exppense");
+		System.out.println("3 - Delete Expense");
 		System.out.println("4 - Show All Expenses");
-		System.out.println("5 - Quit");
+		System.out.println("5 - Set budget for the week");
+		System.out.println("6 - Predict my monthly expenditure behavior");
+		System.out.println("7 - Show weekly expenses by selected week");
+		System.out.println("8 - Add new category for expenses");
+		System.out.println("9 - Quit");
 		System.out.println("\n");
-		
+
 		String user_option = input.next();
 		while(!(isNumeric(user_option))) {
 			System.out.println("Please enter a valid choice!");
@@ -269,7 +301,6 @@ public class UserClass {
 
 		switch (selection) {
 			case 1:
-				System.out.println("\n");
 				System.out.println("Add Expense");
 				System.out.println("-------------------------\n");
 				addExpenditure();
@@ -285,6 +316,22 @@ public class UserClass {
 				exp_list.displayExpenditureList();
 				break;
 			case 5:
+				System.out.println("5 - Please enter your budget for a week");
+				setWeeklyBudget();
+				break;
+			case 6:
+				System.out.println("Your monthly prediction with current spending behavior");
+				predictMonthlyBudget();
+				break;
+			case 7:
+				System.out.println("Please enter the start date for the week to show expenses in mm-dd-yyyy format");
+				showWeeklyBudgetBySelection();
+				break;
+			case 8:
+				System.out.println("Please enter the new category you'd like to add");
+				addNewCategory();
+				break;
+			case 9:
 				System.out.println("Thank you! The App has been closed. ");
 				running = false;
 				break;
@@ -294,32 +341,93 @@ public class UserClass {
 		}
 	}
 
+	private static void addNewCategory() {
+		String newCategory = "";
+		Scanner newInput = new Scanner(System.in);
+		newCategory = newInput.nextLine();
+		boolean added = false;
+
+		for(String category : allowedCategoryArray){
+			if(category.equalsIgnoreCase(newCategory)){
+				categoryArray.add(newCategory);
+				added = true;
+				break;
+			}
+		}
+		if(added)
+			System.out.println("Category added successfully");
+		else
+			System.out.println("Our developers will review your request for the new category");
+
+	}
+
+	private static void showWeeklyBudgetBySelection() {
+		String date = "";
+		boolean validDate = false;
+		while (!validDate) {
+			Scanner newInput = new Scanner(System.in);
+			try {
+				date = newInput.nextLine();
+				if (matches(date)) {
+					validDate = true;
+				} else {
+					System.out.println("Invalid Input! ");
+				}
+			} catch (Exception e) {
+				System.out.println("Invalid Input! ");
+			}
+		}
+
+		exp_list.displayExpenditureListBySelectedWeek(date);
+	}
+
+	private static void predictMonthlyBudget() {
+		System.out.println("Current expenditure "+ budgetServices.getCurrentExpenditure());
+		System.out.println("Monthly prediction "+ budgetServices.getMonthlyBudget());
+		String value = budgetServices.predictMonthlyBudget();
+		System.out.println(value);
+	}
+
+	private static void setWeeklyBudget() {
+		Scanner sc = new Scanner(System.in);
+		int newBudget = sc.nextInt();
+		budgetServices.setWeeklyBudget(newBudget);
+	}
+
+	public static boolean matches(String date) {
+		return DATE_PATTERN.matcher(date).matches();
+	}
+
 	public static void main(String[] args) {
+
+		// initializing budgetService object;
+		budgetServices = new BudgetServices();
+
 		// making new expenditure
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-		LocalDateTime now = LocalDateTime.now();
-		Expenditure exp = new Expenditure("Potatoes", 5.00, now, "Food");
-
-		// making 2nd expenditure
-		LocalDateTime now2 = LocalDateTime.now();
-		Expenditure exp2 = new Expenditure("Oranges", 18.95, now, "Food");
-
-		// making 3rd expenditure
-		LocalDateTime now3 = LocalDateTime.now();
-		Expenditure exp3 = new Expenditure("Car Insurance", 400.00, now, "Transportation");
-
-		exp_list.addExpenditure(exp);
-		exp_list.addExpenditure(exp2);
-		exp_list.addExpenditure(exp3);
-		exp_list.deleteExpenditure(exp3);
+//		LocalDateTime now = LocalDateTime.now();
+//		Expenditure exp = new Expenditure("Potatoes", 5.00, now, "Food");
+//
+//		// making 2nd expenditure
+//		LocalDateTime now2 = LocalDateTime.now();
+//		Expenditure exp2 = new Expenditure("Oranges", 18.95, now, "Food");
+//
+//		// making 3rd expenditure
+//		LocalDateTime now3 = LocalDateTime.now();
+//		Expenditure exp3 = new Expenditure("Car Insurance", 400.00, now, "Transportation");
+//
+//		exp_list.addExpenditure(exp);
+//		exp_list.addExpenditure(exp2);
+//		exp_list.addExpenditure(exp3);
+//		exp_list.deleteExpenditure(exp3);
 
 		// Display all expenditures
-		exp_list.displayExpenditureList();
-
-		// editing exp2
-		exp_list.editExpenditure(1, "Bath supplies", 5.00, "Household");
-		System.out.println("-------------------------------------------------------------");
-		exp_list.displayExpenditureList();
+//		exp_list.displayExpenditureList();
+//
+//		// editing exp2
+//		exp_list.editExpenditure(1, "Bath supplies", 5.00, "Household");
+//		System.out.println("-------------------------------------------------------------");
+//		exp_list.displayExpenditureList();
 
 		while (running) {
 			menu();

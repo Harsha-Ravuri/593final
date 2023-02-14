@@ -1,9 +1,13 @@
 
 /**
- * 
+ *
  */
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.Locale.Category;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -40,12 +44,10 @@ public class ExpenditureList {
 	}
 
 	public void displayExpenditureList() {
-		System.out.println("\n");
-		for (int i = 0; i < expenditure_count; i++) {
 
+		for (int i = 0; i < expenditure_count; i++) {
 			System.out.println("ID: " + i);
 			expenditure_list.get(i).displayExpenditure();
-			System.out.println("\n");
 		}
 
 		System.out.println("Total Expenditure : " + getTotalAmount());
@@ -53,7 +55,40 @@ public class ExpenditureList {
 				.collect(Collectors.groupingBy(Expenditure::getCategory,
 						Collectors.summingDouble(Expenditure::getAmount)));
 		System.out.println(totalSum);
-		System.out.println("\n");
+	}
+
+	// loop through the list of current expenditures
+	// compare it with the start date
+	// check if its equal or +7 than the start date
+	// if it is display else loop over the next item in the list.
+
+	public void displayExpenditureListBySelectedWeek(String strStartDate) {
+
+		try {
+			Date startDate = new SimpleDateFormat("MM-dd-yyyy").parse(strStartDate);
+			for (int i = 0; i < expenditure_count; i++) {
+				boolean show = false;
+				Date currentExpenseDate = expenditure_list.get(i).getDate();
+				long diffInMillies = Math.abs(currentExpenseDate.getTime() - startDate.getTime());
+				long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+				if(currentExpenseDate.compareTo(startDate) > 0 && diff < 8) {
+					show = true;
+				}
+				else if(currentExpenseDate.compareTo(startDate) == 0) {
+					show = true;
+				}
+				else
+					show = false;
+				if(show) {
+					System.out.println("ID: " + i);
+					expenditure_list.get(i).displayExpenditure();
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public int getCount() {
