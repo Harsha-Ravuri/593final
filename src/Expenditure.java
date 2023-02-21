@@ -1,10 +1,11 @@
 
 /**
- * 
+ *
  */
 
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author Harsha Ravuri
@@ -13,14 +14,16 @@ import java.time.LocalDateTime;
 public class Expenditure {
 	public String title;
 	public double amount;
-	public LocalDateTime date;
+	public Date date;
 	public String category;
+	public String dateString;
 
-	public Expenditure(String title, double amount, LocalDateTime date, String category) {
+	public Expenditure(String title, double amount, Date date, String category, String dateString) {
 		setAmount(amount);
 		setCategory(category);
 		setDate(date);
 		setTitle(title);
+		this.dateString = dateString;
 	}
 
 	public String getTitle() {
@@ -39,11 +42,11 @@ public class Expenditure {
 		this.amount = amount;
 	}
 
-	public LocalDateTime getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDateTime date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
@@ -51,16 +54,24 @@ public class Expenditure {
 		return category;
 	}
 
+	public String getDateString() {
+		return dateString;
+	}
+
+	public void setDateString(String dateString) {
+		this.dateString = dateString;
+	}
+
 	public void setCategory(String category) {
 		this.category = category;
 	}
 
+
 	public void displayExpenditure() {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		String exp_details = "Title: " + title + "\n" +
 				"Amount: " + amount + "\n" +
-				"Date: " + dtf.format(date) + "\n" +
-				"Category: " + category + "\n";
+				"Date: " + dateString + "\n" +
+				"Category: " + category;
 		System.out.println(exp_details);
 	}
 
