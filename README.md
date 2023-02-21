@@ -1,5 +1,5 @@
 # 593final
-** CISC 593 Final Project **
+## CISC 593 Final Project 
 Environment setup
 Requisites:
 JavaSE-1.8
@@ -42,8 +42,6 @@ Version 2 Features
 week
 7) Budget Prediction: Showing the user whether they will be under budget, on budget or
 over budget for the category per month. For eg. If the user set budget for entertainment
-as 200 and in the first week they have spent 60, they are on track to go over budget by
-40. When budget prediction is requested for entertainment, in this example, we display
-“Based on current spending, you will be over budget for this month”.
+as 200 and in the first week they have spent 60, they are on track to go over budget by 40. When budget prediction is requested for entertainment, in this example, we display “Based on current spending, you will be over budget for this month”.
 8) Add category: In version 2 “category addition requests” will be either “Approved” or
 “denied” by app developers
